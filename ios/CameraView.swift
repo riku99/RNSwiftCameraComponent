@@ -20,6 +20,34 @@ class CameraView: UIView {
   override func didSetProps(_ changedProps: [String]!) {
     setupCaptureSession()
     setupDevice()
+    setupInputOutput()
+    setupPreviewLayer()
+    captureSession.startRunning()
+  }
+  
+  func setupPreviewLayer() {
+    cameraPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+    cameraPreviewLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
+    cameraPreviewLayer?.connection?.videoOrientation = AVCaptureVideoOrientation.portrait
+    self.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
+    cameraPreviewLayer?.frame = self.bounds
+    self.layer.insertSublayer(self.cameraPreviewLayer!, at: 0)
+  }
+  
+  func setupInputOutput() {
+      do {
+          let caputureDeviceInput = try AVCaptureDeviceInput(device: currentDevice!)
+          
+          captureSession.addInput(caputureDeviceInput)
+          
+          photoOutput = AVCapturePhotoOutput()
+          
+          let outPutPhotoSettings = [AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.jpeg])]
+          photoOutput!.setPreparedPhotoSettingsArray(outPutPhotoSettings, completionHandler: nil)
+          captureSession.addOutput(photoOutput!)
+      } catch {
+          print(error)
+      }
   }
   
   func setupDevice () {
@@ -34,8 +62,7 @@ class CameraView: UIView {
               innerCamera = device
           }
       }
-      
-      currentDevice = mainCamera
+    currentDevice = mainCamera
   }
   
   func setupCaptureSession() {
