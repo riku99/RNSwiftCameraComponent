@@ -7,7 +7,7 @@ const RCTCamera = requireNativeComponent('RCTCamara');
 const App = () => {
   return (
     <View style={styles.container}>
-      <RCTCamera style={StyleSheet.absoluteFill} />
+      <RCTCamera style={styles.camera} />
     </View>
   );
 };
