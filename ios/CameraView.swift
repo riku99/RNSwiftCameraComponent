@@ -18,7 +18,6 @@ class CameraView: UIView {
     setupInputOutput()
     setupPreviewLayer()
     captureSession.startRunning()
-    setupCaptureButton()
   }
   
   // Propsが全てセットされてから実行されるメソッド。RCTViewに定義されている
@@ -30,17 +29,6 @@ class CameraView: UIView {
     let settings = AVCapturePhotoSettings()
     settings.flashMode = .auto
     self.photoOutput?.capturePhoto(with: settings, delegate: self as AVCapturePhotoCaptureDelegate)
-  }
-  
-  func setupCaptureButton() {
-    let captureButton = UIButton()
-    captureButton.layer.cornerRadius = 35
-    captureButton.frame.size = CGSize(width: 70, height: 70)
-    captureButton.frame.origin.y = self.frame.height - 140
-    captureButton.center.x = self.center.x
-    captureButton.backgroundColor = UIColor.white
-    captureButton.addTarget(self, action: #selector(captureButtonTapped), for: .touchUpInside)
-    self.addSubview(captureButton)
   }
   
   func setupPreviewLayer() {
