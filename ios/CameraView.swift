@@ -11,6 +11,14 @@ class CameraView: UIView {
   var photoOutput: AVCapturePhotoOutput?
   var cameraPreviewLayer: AVCaptureVideoPreviewLayer?
   
+  func capture() {
+    print("Capture")
+  }
+  
+  func call() {
+    print("Call!")
+  }
+  
   override public init(frame: CGRect) {
     super.init(frame: frame)
     setupCaptureSession()

@@ -16,4 +16,17 @@ class RCTCamaraManager: RCTViewManager {
   override static func requiresMainQueueSetup() -> Bool {
     return true
   }
+
+  @objc
+  func capture() {
+    let camera = CameraView()
+    camera.capture()
+  }
+  
+  @objc
+  func call(_ node: NSNumber) {
+    print("Called😏")
+    let component = bridge.uiManager.view(forReactTag: node) as! CameraView
+    component.call()
+  }
 }

@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import {
+  NativeModules,
   Pressable,
   requireNativeComponent,
   StyleSheet,
@@ -8,12 +9,21 @@ import {
 
 // AAAManagerでRCT_EXTERN_MODULEに登録した場合、Managerは自動的に切り取られ、AAAで呼び出す
 const RCTCamera = requireNativeComponent('RCTCamara');
+const CameraModule = NativeModules.CamaraManager;
 
 const App = () => {
+  const cameraRef = useRef(null);
+
+  const onPress = async () => {
+    // await CameraModule?.capture();
+    console.log(cameraRef.current._nativeTag);
+    cameraRef.current?.call();
+  };
+
   return (
     <View style={styles.container}>
-      <RCTCamera style={styles.camera} />
-      <Pressable style={styles.button} />
+      <RCTCamera style={styles.camera} ref={cameraRef} />
+      <Pressable style={styles.button} onPress={onPress} />
     </View>
   );
 };
