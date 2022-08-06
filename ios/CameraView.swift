@@ -11,14 +11,6 @@ class CameraView: UIView {
   var photoOutput: AVCapturePhotoOutput?
   var cameraPreviewLayer: AVCaptureVideoPreviewLayer?
   
-  func capture() {
-    print("Capture")
-  }
-  
-  func call() {
-    print("Call!")
-  }
-  
   override public init(frame: CGRect) {
     super.init(frame: frame)
     setupCaptureSession()
@@ -33,7 +25,8 @@ class CameraView: UIView {
   override func didSetProps(_ changedProps: [String]!) {
   }
   
-  @objc func captureButtonTapped() {
+  @objc
+  func capture() {
     let settings = AVCapturePhotoSettings()
     settings.flashMode = .auto
     self.photoOutput?.capturePhoto(with: settings, delegate: self as AVCapturePhotoCaptureDelegate)

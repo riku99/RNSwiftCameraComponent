@@ -1,16 +1,13 @@
 import UIKit
+import AVFoundation
+import Foundation
 
 @objc(RCTCamaraManager)
 class RCTCamaraManager: RCTViewManager {
-  let wrapperView = UIView()
-  let cameraView = CameraView()
-  
   override func view() -> UIView! {
-    // CamraViewはframeを指定している。本来これはRN的にはNG。もしこうしたい場合は何も指定してないviewでラップしたものをview()内で返してあげるといい。
-    // 実際にこれをしないと、ネイティブ側で撮影ボタンを追加した時にタップに反応しなかった。
+    // 他のUIVewでラップしてリターンした方がいい場合もある。
     // https://reactnative.dev/docs/native-components-ios.html#ios-mapview-example
-    wrapperView.addSubview(cameraView)
-    return wrapperView
+    return CameraView()
   }
   
   override static func requiresMainQueueSetup() -> Bool {
@@ -18,15 +15,12 @@ class RCTCamaraManager: RCTViewManager {
   }
 
   @objc
-  func capture() {
-    let camera = CameraView()
-    camera.capture()
+  func capture(_ node: NSNumber) {
+    let component = getCameraView(tag: node)
+    component.capture()
   }
   
-  @objc
-  func call(_ node: NSNumber) {
-    print("Called😏")
-    let component = bridge.uiManager.view(forReactTag: node) as! CameraView
-    component.call()
+  func getCameraView(tag: NSNumber) -> CameraView {
+    return bridge.uiManager.view(forReactTag: tag) as! CameraView
   }
 }
