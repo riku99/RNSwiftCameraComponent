@@ -11,7 +11,7 @@ const App = () => {
 
   return (
     <View style={styles.container}>
-      <Camera style={styles.camera} ref={cameraRef} />
+      <Camera style={styles.camera} ref={cameraRef} flash />
       <Pressable style={styles.button} onPress={onPress} />
     </View>
   );

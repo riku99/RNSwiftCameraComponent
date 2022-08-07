@@ -11,6 +11,8 @@ class CameraView: UIView {
   var photoOutput: AVCapturePhotoOutput?
   var cameraPreviewLayer: AVCaptureVideoPreviewLayer?
   
+  @objc var flash = false
+  
   override public init(frame: CGRect) {
     super.init(frame: frame)
     setupCaptureSession()
@@ -23,12 +25,13 @@ class CameraView: UIView {
   // Propsが全てセットされてから実行されるメソッド。RCTViewに定義されている
   // RCTViewManagerのview()が return [RCTView new]; となってるから、RCTViewManagerを継承しているクラスのview()でreturnされているUIViewでオーバーライドできる
   override func didSetProps(_ changedProps: [String]!) {
+    print("😄 flash is " + String(flash))
   }
   
   @objc
   func capture() {
     let settings = AVCapturePhotoSettings()
-    settings.flashMode = .auto
+    settings.flashMode = flash ? .on : .off
     self.photoOutput?.capturePhoto(with: settings, delegate: self as AVCapturePhotoCaptureDelegate)
   }
   
